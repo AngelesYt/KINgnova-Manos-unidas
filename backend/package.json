@@ -1,0 +1,16 @@
+{
+  "name": "manos-unidas-backend",
+  "version": "1.0.0",
+  "description": "Backend para la app Manos Unidas con MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.19.2",
+    "mysql2": "^3.4.1"
+  }
+}
