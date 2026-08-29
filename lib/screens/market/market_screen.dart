@@ -1,89 +1,179 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'search_screen.dart';
 import 'categories_screen.dart';
 import 'product_model.dart';
 import 'product_details_screen.dart';
+import '../../services/app_flow.dart';
 
-// 1. PALETA DE COLORES CONSTANTES
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);
 
-// Product model and `catalogProducts` are defined in product_model.dart
-
-// 4. PANTALLA PRINCIPAL
 class MarketScreen extends StatelessWidget {
   const MarketScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Cabecera del Catálogo (Verde Esmeralda)
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.only(
-            top: 60,
-            bottom: 20,
-            left: 20,
-            right: 20,
+    final CategoriasController categoryController =
+        Get.find<CategoriasController>();
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: colorVerde,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: colorCrema),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'manoslibre_app',
+          style: TextStyle(
+            color: colorCrema,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
-          decoration: const BoxDecoration(
-            color: colorVerde, // Uso de la paleta
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(25),
-              bottomRight: Radius.circular(25),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_none_rounded,
+              color: colorCrema,
+            ),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            decoration: const BoxDecoration(
+              color: colorVerde,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(25),
+                bottomRight: Radius.circular(25),
+              ),
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [SizedBox(height: 15), SearchScreen()],
             ),
           ),
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+
+          // Componente de Categorías
+          CategoriesScreen(),
+
+          // Listado Filtrado de Productos
+          Expanded(
+            child: Obx(() {
+              final seleccion = categoryController.categoriaActiva.value;
+
+              final productosFiltrados = catalogProducts.where((product) {
+                if (seleccion == 'Todas') return true;
+                return product.category == seleccion;
+              }).toList();
+
+              if (productosFiltrados.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No hay productos en esta categoría',
+                    style: TextStyle(color: colorMarron, fontSize: 16),
+                  ),
+                );
+              }
+
+              return GridView.builder(
+                padding: const EdgeInsets.all(15),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 15,
+                  childAspectRatio: 0.72,
+                ),
+                itemCount: productosFiltrados.length,
+                itemBuilder: (context, index) {
+                  final product = productosFiltrados[index];
+                  return _buildProductCard(context, product);
+                },
+              );
+            }),
+          ),
+        ],
+      ),
+
+      // Botón flotante central para publicar productos
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Abrir pantalla o modal para subir nuevo producto
+        },
+        backgroundColor: colorDorado,
+        elevation: 4,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add_rounded, color: colorCrema, size: 32),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      // Barra de navegación inferior con muesca central y botón de anuncios
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 6.0,
+        color: colorVerde,
+        child: SizedBox(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'El Trueque',
-                    style: TextStyle(
-                      color: colorCrema, // Uso de la paleta
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Icon(
-                    Icons.notifications_none_rounded,
-                    color: Color(0xCCF8F5F0), // Crema translúcido
-                  ),
-                ],
+              // Lado Izquierdo: Inicio y Anuncio
+              IconButton(
+                icon: const Icon(Icons.storefront_rounded, color: colorCrema),
+                tooltip: 'Inicio',
+                onPressed: () {},
               ),
-              SizedBox(height: 15),
-              // Componente extraído: Búsqueda
-              SearchScreen(),
+              IconButton(
+                icon: const Icon(Icons.campaign_outlined, color: colorCrema),
+                tooltip: 'Anuncios',
+                onPressed: () {
+                  // TODO: Navegar a la pantalla de Anuncios
+                },
+              ),
+
+              // Espacio reservado para el botón flotante central (+)
+              const SizedBox(width: 32),
+
+              // Lado Derecho: Chat, Pagos y Perfil
+              IconButton(
+                icon: const Icon(
+                  Icons.chat_bubble_outline_rounded,
+                  color: colorCrema,
+                ),
+                tooltip: 'Chat',
+                onPressed: () {
+                  // TODO: Navegar a la pantalla de Chat
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.payment_rounded, color: colorCrema),
+                tooltip: 'Pagos',
+                onPressed: () => AppFlow.goTo(context, AppFlow.payment),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.person_outline_rounded,
+                  color: colorCrema,
+                ),
+                tooltip: 'Perfil',
+                onPressed: () {
+                  // TODO: Navegar a la pantalla de Perfil
+                },
+              ),
             ],
           ),
         ),
-
-        // Componente extraído: Categorías
-        const CategoriesScreen(),
-
-        // Listado de Productos en Cuadrícula
-        Expanded(
-          child: GridView.builder(
-            padding: const EdgeInsets.all(15),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 15,
-              mainAxisSpacing: 15,
-              childAspectRatio: 0.72,
-            ),
-            itemCount: catalogProducts.length, // Ya no dará error
-            itemBuilder: (context, index) {
-              final product = catalogProducts[index]; // Ya no dará error
-              return _buildProductCard(context, product);
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -93,7 +183,6 @@ class MarketScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            // Asume que tu pantalla de detalle se llama ProductDetailsScreen o ProductScreen
             builder: (context) => ProductDetailsScreen(product: product),
           ),
         );
@@ -104,7 +193,7 @@ class MarketScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: const [
             BoxShadow(
-              color: Color(0x0F5C3A21), // Marrón translúcido
+              color: Color(0x0F5C3A21),
               blurRadius: 10,
               offset: Offset(0, 4),
             ),
@@ -136,13 +225,13 @@ class MarketScreen extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: colorDorado, // Uso de la paleta
+                      color: colorDorado,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       product.badge,
                       style: const TextStyle(
-                        color: colorCrema, // Uso de la paleta
+                        color: colorCrema,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
@@ -154,7 +243,7 @@ class MarketScreen extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: colorMarron, // Uso de la paleta
+                      color: colorMarron,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
@@ -163,7 +252,7 @@ class MarketScreen extends StatelessWidget {
                   Text(
                     product.price,
                     style: const TextStyle(
-                      color: colorVerde, // Uso de la paleta
+                      color: colorVerde,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),

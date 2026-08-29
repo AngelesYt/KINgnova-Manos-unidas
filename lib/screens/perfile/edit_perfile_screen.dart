@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorCrema = Color(0xffF8F5F0);
 
@@ -12,7 +12,7 @@ class EditProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xffF8F5F0),
       appBar: AppBar(
-        backgroundColor: Color(0xff0F8B8D),
+        backgroundColor: Color(0xff3D5420),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -51,7 +51,7 @@ class EditProfileScreen extends StatelessWidget {
                     bottom: 0,
                     right: 0,
                     child: CircleAvatar(
-                      backgroundColor: Color(0xff0F8B8D),
+                      backgroundColor: Color(0xff3D5420),
                       radius: 18,
                       child: Icon(
                         Icons.camera_alt,
@@ -72,7 +72,7 @@ class EditProfileScreen extends StatelessWidget {
             const SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xff0F8B8D),
+                backgroundColor: Color(0xff3D5420),
                 foregroundColor: Color(0xffF8F5F0),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
@@ -84,7 +84,7 @@ class EditProfileScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Perfil actualizado correctamente'),
-                    backgroundColor: Color(0xff0F8B8D),
+                    backgroundColor: Color(0xff3D5420),
                   ),
                 );
               },

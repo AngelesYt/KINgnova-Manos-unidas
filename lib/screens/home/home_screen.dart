@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../services/app_flow.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -10,6 +12,13 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xff0F8B8D),
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Row(
           children: [
             // ==========================================
@@ -99,7 +108,7 @@ class HeroSection extends StatelessWidget {
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-            'https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?q=80&w=1974&auto=format&fit=crop',
+            'https://radio580nic.s3.amazonaws.com/wp-content/uploads/2026/02/17110022/IMG_9119-1-480x320.jpg',
           ),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken),
@@ -111,7 +120,7 @@ class HeroSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Mujeres impulsando mujeres',
+            'Mujeres impulsando ',
             style: TextStyle(
               fontSize: 34,
               fontWeight: FontWeight.bold,
@@ -133,7 +142,7 @@ class HeroSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () {},
+            onPressed: () => AppFlow.goTo(context, AppFlow.auth),
             child: const Text(
               'Explorar Marketplace',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -344,7 +353,7 @@ class CtaSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () {},
+            onPressed: () => AppFlow.goTo(context, AppFlow.auth),
             child: const Text(
               'Registrarse',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../services/app_flow.dart';
 import 'login_screen.dart'; // Para reutilizar constantes de color y estilos
 
 class RegisterScreen extends StatefulWidget {
@@ -65,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Cierra diálogo
-                Navigator.pop(context); // Vuelve al login
+                AppFlow.goTo(context, AppFlow.market);
               },
               child: const Text(
                 'Entendido',

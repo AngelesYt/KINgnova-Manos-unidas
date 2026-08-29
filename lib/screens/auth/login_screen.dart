@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'register_screen.dart';
 import 'recover_password_screen.dart';
+import '../../services/app_flow.dart';
 
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);
@@ -50,7 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
           actionsAlignment: MainAxisAlignment.center,
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                Navigator.pop(context);
+                AppFlow.goTo(context, AppFlow.market);
+              },
               child: const Text(
                 'Entendido',
                 style: TextStyle(
@@ -69,6 +73,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorCrema,
+      appBar: AppBar(
+        backgroundColor: colorCrema,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: colorVerde),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

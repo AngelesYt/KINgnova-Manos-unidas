@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'chat_screen.dart';
 
 // --- COLORES OFICIALES ---
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);
@@ -40,6 +40,10 @@ class ChatInboxScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: colorVerde,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: colorCrema),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: const Text(
           'Mis Mensajes',
           style: TextStyle(

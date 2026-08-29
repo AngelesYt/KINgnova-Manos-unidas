@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorCrema = Color(0xffF8F5F0);
 
 class SearchScreen extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'product_model.dart';
 
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);
@@ -24,6 +24,10 @@ class ProductDetailsScreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: Color(0xff5C3A21)), // colorMarron
         backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -62,7 +66,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       Text(
                         product.price,
                         style: const TextStyle(
-                          color: Color(0xff0F8B8D), // colorVerde
+                          color: Color(0xff3D5420), // colorVerde
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -180,7 +184,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 30),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff0F8B8D), // colorVerde
+                      backgroundColor: const Color(0xff3D5420), // colorVerde
                       foregroundColor: const Color(0xffF8F5F0), // colorCrema
                       minimumSize: const Size(double.infinity, 50),
                       shape: RoundedRectangleBorder(
@@ -191,7 +195,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Abriendo chat de trueque...'),
-                          backgroundColor: Color(0xff0F8B8D), // colorVerde
+                          backgroundColor: Color(0xff3D5420), // colorVerde
                         ),
                       );
                     },

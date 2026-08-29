@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Colores de la paleta de la aplicación
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);

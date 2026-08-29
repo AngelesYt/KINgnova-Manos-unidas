@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../screens/auth/login_screen.dart';
+import '../services/app_flow.dart';
 
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);
@@ -19,10 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+      AppFlow.goTo(context, AppFlow.home);
     });
   }
 

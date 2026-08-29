@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'edit_profile_screen.dart';
+import 'edit_perfile_screen.dart';
 import 'my_products_screen.dart';
+import '../../services/app_flow.dart';
 
 // --- COLORES OFICIALES MANTENIDOS ---
-const Color colorVerde = Color(0xff0F8B8D);
+const Color colorVerde = Color(0xff3D5420);
 const Color colorMarron = Color(0xff5C3A21);
 const Color colorDorado = Color(0xffD4A017);
 const Color colorCrema = Color(0xffF8F5F0);
@@ -25,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xffF8F5F0),
       appBar: AppBar(
-        backgroundColor: Color(0xff0F8B8D),
+        backgroundColor: Color(0xff3D5420),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -169,6 +170,27 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       );
                     },
+                  ),
+                  const SizedBox(height: 15),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorDorado,
+                      foregroundColor: colorCrema,
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
+                    ),
+                    icon: const Icon(Icons.flag_outlined),
+                    label: const Text(
+                      'Continuar a reportes',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    onPressed: () => AppFlow.goTo(context, AppFlow.report),
                   ),
                 ],
               ),
