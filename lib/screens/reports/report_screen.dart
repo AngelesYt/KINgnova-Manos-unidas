@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/custom_button.dart';
 import 'widgets/report_card.dart';
-import '../../services/app_flow.dart';
 
 class ReportScreen extends StatelessWidget {
   const ReportScreen({super.key});
@@ -32,7 +30,7 @@ class ReportScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const Text(
                   'Reportes',
@@ -41,10 +39,6 @@ class ReportScreen extends StatelessWidget {
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
-                CustomButton(
-                  text: 'Ver anuncios',
-                  onPressed: () => AppFlow.goTo(context, AppFlow.ads),
                 ),
               ],
             ),

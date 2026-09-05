@@ -7,15 +7,15 @@ class AdsBannerWidget extends StatelessWidget {
   final List<Map<String, String>> _adsList = const [
     {
       'title': '¡Gran Feria de Intercambio!',
-      'subtitle': 'Publica tus productos hoy mismo sin costo.',
+      'subtitle': 'Publica tus productos hoy mismo con costo adicional.',
       'image':
-          'https://via.placeholder.com/400x150/3498db/ffffff?text=Anuncio+1',
+          'https://via.placeholder.com/400x150/3D5420/F8F5F0?text=Feria+de+Intercambio',
     },
     {
-      'title': 'Descuentos en Envíos',
+      'title': 'Descuentos de membresía',
       'subtitle': 'Aprovecha las tarifas especiales de temporada.',
       'image':
-          'https://via.placeholder.com/400x150/2ecc71/ffffff?text=Anuncio+2',
+          'https://via.placeholder.com/400x150/D4A017/F8F5F0?text=Descuentos+de+Membresia',
     },
   ];
 

@@ -20,7 +20,7 @@ class ScreenRecordService {
             body: jsonEncode({
               'pantalla': screen,
               'fecha': DateTime.now().toUtc().toIso8601String(),
-              if (data != null) 'datos': data,
+              'datos': ?data,
             }),
           )
           .timeout(const Duration(seconds: 5));

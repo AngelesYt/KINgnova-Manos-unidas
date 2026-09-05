@@ -74,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Icons.notifications_active_outlined,
                     color: colorVerde,
                   ),
-                  activeColor: Color(0xffD4A017),
+                  activeThumbColor: colorDorado,
                   value: _notificationsEnabled,
                   onChanged: (bool value) {
                     setState(() {
@@ -101,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Icons.dark_mode_outlined,
                     color: colorVerde,
                   ),
-                  activeColor: Color(0xffD4A017),
+                  activeThumbColor: colorDorado,
                   value: _darkMode,
                   onChanged: (bool value) {
                     setState(() {

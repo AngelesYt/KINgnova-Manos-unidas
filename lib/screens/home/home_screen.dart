@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../services/app_flow.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,37 +9,23 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       // --- NAVBAR (AppBar) ---
       appBar: AppBar(
-        backgroundColor: const Color(0xff0F8B8D),
+        backgroundColor: const Color(0xff3D5420),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Row(
           children: [
-            // ==========================================
-            // LOGO DEL PROYECTO
-            // ==========================================
             Container(
               width: 36,
               height: 36,
               decoration: const BoxDecoration(
-                // Corregido: Color hexadecimal con el 15% de opacidad integrado (0x26)
-                color: Color(0x26FFFFFF), // Destello suave de fondo
+                color: Color(0x26FFFFFF),
                 shape: BoxShape.circle,
               ),
-              padding: const EdgeInsets.all(
-                4,
-              ), // Margen para que no toque los bordes
+              padding: const EdgeInsets.all(4),
               child: ClipOval(
                 child: Image.asset(
-                  'assets/logo/logo.png', // Tu ruta configurada en el pubspec.yaml
+                  'assents/logo/logo.jpeg',
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) {
-                    // Respaldo en caso de que la imagen no exista aún en tu carpeta de assets
                     return const Icon(
                       Icons.diversity_3_rounded,
                       color: Colors.white,
@@ -52,7 +37,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             const Text(
-              'El Trueque',
+              'manos unidas ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -64,28 +49,17 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // Aquí puedes programar un menú lateral en el futuro
-            },
+            onPressed: () {},
           ),
         ],
       ),
       body: const SingleChildScrollView(
         child: Column(
           children: [
-            // --- HERO SECTION ---
             HeroSection(),
-
-            // --- FEATURES SECTION (Marketplace, Chat, Confianza) ---
             FeaturesSection(),
-
-            // --- MARKETPLACE SECTION (Productos Destacados) ---
             MarketplaceSection(),
-
-            // --- CTA SECTION (Empieza a vender hoy mismo) ---
             CtaSection(),
-
-            // --- FOOTER ---
             FooterSection(),
           ],
         ),
@@ -142,7 +116,7 @@ class HeroSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () => AppFlow.goTo(context, AppFlow.auth),
+            onPressed: () => Get.toNamed('/login'),
             child: const Text(
               'Explorar Marketplace',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -193,7 +167,7 @@ class FeaturesSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0x0D000000),
             blurRadius: 15,
@@ -203,7 +177,7 @@ class FeaturesSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, size: 45, color: const Color(0xff0F8B8D)),
+          Icon(icon, size: 45, color: const Color(0xff3D5420)),
           const SizedBox(height: 15),
           Text(
             title,
@@ -353,7 +327,7 @@ class CtaSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () => AppFlow.goTo(context, AppFlow.auth),
+            onPressed: () => Get.toNamed('/register'),
             child: const Text(
               'Registrarse',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -373,10 +347,10 @@ class FooterSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: const Color(0xff0F8B8D),
+      color: const Color(0xff3D5420),
       padding: const EdgeInsets.all(20),
       child: const Text(
-        '© 2026 El Trueque | Marketplace para Mujeres Emprendedoras',
+        '© 2026 manos unidas | Marketplace para Mujeres Emprendedoras',
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white, fontSize: 13),
       ),

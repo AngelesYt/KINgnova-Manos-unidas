@@ -190,7 +190,8 @@ class ProfileScreen extends StatelessWidget {
                         fontSize: 15,
                       ),
                     ),
-                    onPressed: () => AppFlow.goTo(context, AppFlow.report),
+                    onPressed: () =>
+                        AppFlow.goTo(context, AppFlow.report, replace: false),
                   ),
                 ],
               ),

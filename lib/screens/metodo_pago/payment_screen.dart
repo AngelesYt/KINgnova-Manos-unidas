@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../services/app_flow.dart';
-
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
 
@@ -11,7 +9,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   // Método de pago seleccionado por defecto
-  String _selectedPaymentMethod = 'card';
+  String _selectedPaymentMethod = 'digital_wallet';
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +33,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Opción 1: Tarjeta de Crédito/Débito
-            _buildPaymentOption(
-              value: 'card',
-              title: 'Tarjeta de Crédito / Débito',
-              subtitle: 'Visa, Mastercard, American Express',
-              icon: Icons.credit_card,
-            ),
-
-            // Opción 2: Pago Móvil / Digital (ej. bKash / PayPal / Transferencia)
+            // Opción 1: Pago Móvil / Digital (ej. bKash / PayPal / Transferencia)
+            RadioGroup<String>(
+              groupValue: _selectedPaymentMethod,
+              onChanged: (newValue) {
+                if (newValue != null) {
+                  setState(() => _selectedPaymentMethod = newValue);
+                }
+              },
+              child: Column(
+                children: [
             _buildPaymentOption(
               value: 'digital_wallet',
               title: 'Billetera Digital / Transferencia',
@@ -51,12 +50,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
               icon: Icons.account_balance_wallet,
             ),
 
-            // Opción 3: Pago contra entrega
+            // Opción 2: Pago contra entrega
             _buildPaymentOption(
               value: 'cash',
               title: 'Pago contra entrega',
               subtitle: 'Paga al recibir el producto',
               icon: Icons.money,
+            ),
+
+                ],
+              ),
             ),
 
             const Spacer(),
@@ -73,11 +76,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () => AppFlow.goTo(
-                  context,
-                  AppFlow.profile,
-                  data: {'metodo_pago': _selectedPaymentMethod},
-                ),
+                onPressed: () {},
                 child: const Text(
                   'Continuar con el Pago',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -103,12 +102,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: RadioListTile<String>(
         value: value,
-        groupValue: _selectedPaymentMethod,
-        onChanged: (String? newValue) {
-          setState(() {
-            _selectedPaymentMethod = newValue!;
-          });
-        },
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle),
         secondary: Icon(icon, color: Colors.blue, size: 30),

@@ -4,6 +4,7 @@ import 'search_screen.dart';
 import 'categories_screen.dart';
 import 'product_model.dart';
 import 'product_details_screen.dart';
+import 'publish_product_screen.dart';
 import '../../services/app_flow.dart';
 
 const Color colorVerde = Color(0xff3D5420);
@@ -16,8 +17,10 @@ class MarketScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CategoriasController categoryController =
-        Get.find<CategoriasController>();
+    final CategoriasController categoryController = Get.put(
+      CategoriasController(),
+    );
+    final ProductsController productsController = Get.put(ProductsController());
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +75,7 @@ class MarketScreen extends StatelessWidget {
             child: Obx(() {
               final seleccion = categoryController.categoriaActiva.value;
 
-              final productosFiltrados = catalogProducts.where((product) {
+              final productosFiltrados = productsController.products.where((product) {
                 if (seleccion == 'Todas') return true;
                 return product.category == seleccion;
               }).toList();
@@ -108,7 +111,10 @@ class MarketScreen extends StatelessWidget {
       // Botón flotante central para publicar productos
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Abrir pantalla o modal para subir nuevo producto
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const PublishProductScreen()),
+          );
         },
         backgroundColor: colorDorado,
         elevation: 4,
@@ -136,9 +142,8 @@ class MarketScreen extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.campaign_outlined, color: colorCrema),
                 tooltip: 'Anuncios',
-                onPressed: () {
-                  // TODO: Navegar a la pantalla de Anuncios
-                },
+                onPressed: () =>
+                    AppFlow.goTo(context, AppFlow.ads, replace: false),
               ),
 
               // Espacio reservado para el botón flotante central (+)
@@ -151,14 +156,14 @@ class MarketScreen extends StatelessWidget {
                   color: colorCrema,
                 ),
                 tooltip: 'Chat',
-                onPressed: () {
-                  // TODO: Navegar a la pantalla de Chat
-                },
+                onPressed: () =>
+                    AppFlow.goTo(context, AppFlow.chatList, replace: false),
               ),
               IconButton(
                 icon: const Icon(Icons.payment_rounded, color: colorCrema),
                 tooltip: 'Pagos',
-                onPressed: () => AppFlow.goTo(context, AppFlow.payment),
+                onPressed: () =>
+                    AppFlow.goTo(context, AppFlow.payment, replace: false),
               ),
               IconButton(
                 icon: const Icon(
@@ -166,9 +171,8 @@ class MarketScreen extends StatelessWidget {
                   color: colorCrema,
                 ),
                 tooltip: 'Perfil',
-                onPressed: () {
-                  // TODO: Navegar a la pantalla de Perfil
-                },
+                onPressed: () =>
+                    AppFlow.goTo(context, AppFlow.profile, replace: false),
               ),
             ],
           ),
@@ -207,11 +211,21 @@ class MarketScreen extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(16),
                 ),
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+                child: product.imageBytes != null
+                    ? Image.memory(
+                        product.imageBytes!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      )
+                    : Image.network(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        errorBuilder: (_, _, _) => const ColoredBox(
+                          color: Color(0xFFF1EADF),
+                          child: Icon(Icons.image_not_supported_outlined),
+                        ),
+                      ),
               ),
             ),
             Padding(

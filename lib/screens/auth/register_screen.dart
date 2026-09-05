@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../services/app_flow.dart';
 import 'login_screen.dart'; // Para reutilizar constantes de color y estilos
 
@@ -15,16 +14,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _obscurePassword = true;
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _codePostalController = TextEditingController();
+  final TextEditingController _departamentoController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _fotoCedulacontroller = TextEditingController();
   String? _capturedPhotoName;
 
+  // Lista de departamentos para el selector desplegable
+  final List<String> _departamentos = [
+    'Boaco',
+    'Carazo',
+    'Chinandega',
+    'Chontales',
+    'Estelí',
+    'Granada',
+    'Jinotega',
+    'León',
+    'Madriz',
+    'Managua',
+    'Masaya',
+    'Matagalpa',
+    'Nueva Segovia',
+    'Rivas',
+    'Río San Juan',
+    'RACCN',
+    'RACCS',
+  ];
+
   @override
   void dispose() {
     _nameController.dispose();
-    _codePostalController.dispose();
+    _departamentoController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _fotoCedulacontroller.dispose();
@@ -38,7 +58,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Cédula adjuntada correctamente.', style: TextStyle(color: colorCrema)),
+        content: Text(
+          'Cédula adjuntada correctamente.',
+          style: TextStyle(color: colorCrema),
+        ),
         backgroundColor: colorVerde,
         duration: Duration(seconds: 2),
       ),
@@ -59,7 +82,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: const Text(
             '¡Registro exitoso! Cuenta creada correctamente.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: colorMarron, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 16,
+              color: colorMarron,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           actionsAlignment: MainAxisAlignment.center,
           actions: [
@@ -70,7 +97,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
               child: const Text(
                 'Entendido',
-                style: TextStyle(fontWeight: FontWeight.bold, color: colorVerde),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: colorVerde,
+                ),
               ),
             ),
           ],
@@ -111,7 +141,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 10),
                   Text(
                     'Únete a Manos Unidas',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: colorCrema),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: colorCrema,
+                    ),
                   ),
                 ],
               ),
@@ -125,7 +159,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     const Text(
                       'Regístrate',
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: colorMarron),
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: colorMarron,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
@@ -141,19 +179,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _nameController,
                       keyboardType: TextInputType.name,
                       style: const TextStyle(color: colorMarron),
-                      decoration: _inputDecoration('Nombre Completo / Emprendimiento', Icons.person_outline_rounded),
-                      validator: (value) => (value == null || value.trim().isEmpty) ? 'Ingresa tu nombre' : null,
+                      decoration: _inputDecoration(
+                        'Nombre Completo',
+                        Icons.person_outline_rounded,
+                      ),
+                      validator: (value) =>
+                          (value == null || value.trim().isEmpty)
+                          ? 'Ingresa tu nombre'
+                          : null,
                     ),
                     const SizedBox(height: 15),
 
-                    // Código Postal
-                    TextFormField(
-                      controller: _codePostalController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      style: const TextStyle(color: colorMarron),
-                      decoration: _inputDecoration('Código Postal', Icons.map_outlined),
-                      validator: (value) => (value == null || value.trim().isEmpty) ? 'Ingresa tu código postal' : null,
+                    // Departamento
+                    DropdownButtonFormField<String>(
+                      initialValue: _departamentoController.text.isNotEmpty
+                          ? _departamentoController.text
+                          : null,
+                      style: const TextStyle(color: colorMarron, fontSize: 16),
+                      dropdownColor: Colors.white,
+                      decoration: _inputDecoration(
+                        'Departamento',
+                        Icons.map_outlined,
+                      ),
+                      items: _departamentos.map((String depto) {
+                        return DropdownMenuItem<String>(
+                          value: depto,
+                          child: Text(depto),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          _departamentoController.text = newValue ?? '';
+                        });
+                      },
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Selecciona tu departamento'
+                          : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -163,13 +224,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       readOnly: true,
                       onTap: _simularAdjuntarCedula,
                       style: const TextStyle(color: colorMarron),
-                      decoration: _inputDecoration('Documento de Identidad / Cédula', Icons.badge_outlined).copyWith(
-                        suffixIcon: Icon(
-                          _capturedPhotoName != null ? Icons.check_circle_rounded : Icons.attach_file_rounded,
-                          color: colorVerde,
-                        ),
-                      ),
-                      validator: (value) => (value == null || value.isEmpty) ? 'Por favor, adjunta tu cédula' : null,
+                      decoration:
+                          _inputDecoration(
+                            'Documento de Identidad / Cédula',
+                            Icons.badge_outlined,
+                          ).copyWith(
+                            suffixIcon: Icon(
+                              _capturedPhotoName != null
+                                  ? Icons.check_circle_rounded
+                                  : Icons.attach_file_rounded,
+                              color: colorVerde,
+                            ),
+                          ),
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Por favor, adjunta tu cédula'
+                          : null,
                     ),
                     const SizedBox(height: 15),
 
@@ -178,10 +247,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       style: const TextStyle(color: colorMarron),
-                      decoration: _inputDecoration('Correo Electrónico', Icons.email_outlined),
+                      decoration: _inputDecoration(
+                        'Correo Electrónico',
+                        Icons.email_outlined,
+                      ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) return 'Ingresa tu correo';
-                        if (!RegExp(r'^[\w-\.]+\@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                        if (value == null || value.isEmpty) {
+                          return 'Ingresa tu correo';
+                        }
+                        if (!RegExp(
+                          r'^[\w-\.]+\@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
                           return 'Correo no válido';
                         }
                         return null;
@@ -194,16 +270,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       style: const TextStyle(color: colorMarron),
-                      decoration: _inputDecoration('Contraseña', Icons.lock_outline_rounded).copyWith(
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                            color: colorVerde,
+                      decoration:
+                          _inputDecoration(
+                            'Contraseña',
+                            Icons.lock_outline_rounded,
+                          ).copyWith(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
+                                color: colorVerde,
+                              ),
+                              onPressed: () => setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              ),
+                            ),
                           ),
-                          onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                        ),
-                      ),
-                      validator: (value) => (value == null || value.length < 6) ? 'Mínimo 6 caracteres' : null,
+                      validator: (value) => (value == null || value.length < 6)
+                          ? 'Mínimo 6 caracteres'
+                          : null,
                     ),
                     const SizedBox(height: 25),
 
@@ -212,22 +298,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: colorDorado,
                         foregroundColor: colorCrema,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                         elevation: 0,
                       ),
                       onPressed: _submitRegister,
-                      child: const Text('Registrarme ahora', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      child: const Text(
+                        'Registrarme ahora',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 25),
 
                     Row(
                       children: [
-                        const Expanded(child: Divider(color: colorMarron, thickness: 1)),
+                        const Expanded(
+                          child: Divider(color: colorMarron, thickness: 1),
+                        ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: Text('¿Ya tienes una cuenta?', style: TextStyle(color: colorMarron, fontSize: 13)),
+                          child: Text(
+                            '¿Ya tienes una cuenta?',
+                            style: TextStyle(color: colorMarron, fontSize: 13),
+                          ),
                         ),
-                        const Expanded(child: Divider(color: colorMarron, thickness: 1)),
+                        const Expanded(
+                          child: Divider(color: colorMarron, thickness: 1),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -236,12 +337,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: colorVerde, width: 1.5),
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       onPressed: () => Navigator.pop(context),
                       child: const Text(
                         'Ir a Iniciar Sesión',
-                        style: TextStyle(color: colorVerde, fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: colorVerde,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],

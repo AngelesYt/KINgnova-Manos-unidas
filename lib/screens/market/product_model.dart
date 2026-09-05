@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+import 'package:get/get.dart';
+
 class Product {
   final String title;
   final String description;
@@ -8,6 +11,7 @@ class Product {
   final String authorLocation;
   final String authorAvatar;
   final String category;
+  final Uint8List? imageBytes;
 
   const Product({
     required this.title,
@@ -19,7 +23,21 @@ class Product {
     required this.authorLocation,
     required this.authorAvatar,
     required this.category,
+    this.imageBytes,
   });
+}
+
+/// Catálogo en memoria para que las publicaciones aparezcan de inmediato.
+class ProductsController extends GetxController {
+  final products = <Product>[].obs;
+
+  @override
+  void onInit() {
+    products.assignAll(catalogProducts);
+    super.onInit();
+  }
+
+  void add(Product product) => products.insert(0, product);
 }
 
 final List<Product> catalogProducts = [
@@ -43,7 +61,7 @@ final List<Product> catalogProducts = [
         'Elaborada por mujeres rurales utilizando técnicas de costura tradicionales y telas 100% ecológicas.',
     imageUrl:
         'https://www.vostv.com.ni/media/uploads/2023/08/17/whatsapp-image-2023-08-17-at-172325-1.jpeg',
-    price: 'Cor 600',
+    price: 'Cor 800',
     badge: 'Venta',
     authorName: 'Juana Martínez',
     authorLocation: 'Masaya, Nicaragua',
@@ -56,7 +74,7 @@ final List<Product> catalogProducts = [
     description:
         'Frutas cosechadas el mismo día de la entrega directamente desde comunidades rurales del país.',
     imageUrl:
-        'https://scontent.fmga11-1.fna.fbcdn.net/v/t39.30808-6/489883163_1089107786576777_1942842381142466496_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1536&ctp=s590x590&_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=833d8c&_nc_ohc=7eau-LtX4CkQ7kNvwH8QpP3&_nc_oc=Adp8uii2KhOL9UZiVa-dPE0qJGyf09gqFxe9T16CYhVnv_q6dmc2EZtObZZeRkNs9ENywO6XdZqp7z9z1QN7cTN1&_nc_zt=23&_nc_ht=scontent.fmga11-1.fna&_nc_gid=D37nQ9LflVgtUHcAcnDDVQ&_nc_ss=7b2a8&oh=00_AQJSr3prcfI4Bw1tZTP-zNO2DffDZQgnopLrU7hK6AXsQQ&oe=6A98BC65',
+        'https://media.istockphoto.com/id/501706215/es/foto/frutas-frescas-en-una-mesa-de-madera.jpg?s=612x612&w=0&k=20&c=_xdfs_yc0oiYbGz4-jNKo4So_7ptyTOTIzwjDopEvoY=',
     price: 'C 250',
     badge: 'Venta',
     authorName: 'Sonia Rodríguez',

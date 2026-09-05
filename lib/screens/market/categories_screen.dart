@@ -13,7 +13,6 @@ class CategoriasController extends GetxController {
   void cambiarCategoria(String nuevaCategoria) {
     categoriaActiva.value = nuevaCategoria;
     // Aquí puedes llamar a tu API en Node.js para filtrar los productos
-    print('Categoría seleccionada en manoslibre_app: $nuevaCategoria');
   }
 }
 
